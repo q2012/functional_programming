@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Functional Programming</title>
+  <link rel="stylesheet" href="css/lab5.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+$(document).ready(function(){
+  $("a").on('click', function(event) {
+
+    if (this.hash !== "") {
+      event.preventDefault();
+
+      var hash = this.hash;
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 800, function(){
+
+        window.location.hash = hash;
+      });
+    }
+  });
+});
+</script>
+</head>
+<body>
+  <header>
+    <div id="logo">
+      <span>"main.html">Функціональне програмування</span>
+    </div>
+    <div id="about">
+      <a href="#" title="Lab_1" >Лабораторна 1</a>
+      <a href="main.html" title="Lab_2">Лабораторна 2</a>
+      <a href="#" title="Lab_3">Лабораторна 3</a>
+      <a href="#" title="Lab_4">Лабораторна 4</a>
+      <a href="#" title="Lab_5" >Лабораторна 5</a>
+      <a href="#" title="Lab_6">Лабораторна 6</a>
+      <a href="#" title="Lab_7">Лабораторна 7</a>
+      <a href="#" title="Lab_8">Лабораторна 8</a>
+    </div>
+  </header>
+	<div id="top">
+		<h1>Лабораторна робота 2<br>
+			Рекурентні співвідношення для тригонометричних, експоненціальних функцій та ланцюгові дроби<br>
+			Варіант 5
+		</h1>
+    </div>
+  <div>
+
+  </div>
+	<div id="text">
+        `       <div id="test">
+			<h4>Зміст</h4>
+			<ol>
+				<li><a href="#meta">Мета</a></li>
+				<li><a href="#choice">Вибір середовища та мови функціонального програмування</a></li>
+				<li><a href="#quest1">Завдання 1</a>
+					<ul>
+						<li><a href="#section1">Код програми</a></li>
+						<li><a href="#result1">Результати роботи</a></li>
+					</ul>
+				</li>
+				<li><a href="#quest2">Завдання 2</a>
+					<ul>
+						<li><a href="#section2">Код програми</a></li>
+						<li><a href="#result2">Результати роботи</a></li>
+						<li><a href="#result2_">Аналіз достовірності результатів</a></li>
+					</ul>
+				</li>
+				<li><a href="#result">Висновки</a></li>
+			</ol>
+		</div>
+		<p><b id="meta">Мета:</b> Опанувати теоретичні основи застосування рекурентних співвідношень для обчислення тригонометричних, експоненціальних, степеневих функцій та розробити програми функціональними мовам програмування для обчислення їх значень <br>
+		<p style="margin-top: 1%"><b id="choice">Вибір середовища та мови функціонального програмування</b><br>
+		</p>
+		<p>В якості мови програмування була обрана Haskell, оскільки в ньому оптимально поєднанні імперативні і функціональні парадигми а також, легко будувати абстракції над даними і алгоритмами, що дозволяє думати про завдання, не відволікаючись на дрібниці. Середовищем було обрано Compile and Execute Haskell Online (Glorious Glasgow, v8.0.2)</p>
+        <div id="quest1">
+        <h4>Завдання 1</h4>
+		<p>Написати програму, яка демонструє опрацювання операцій з дробами в процесі розв’язання такої задачі. «Подорожній запитав «Чи далеко до села, що попереду?» Отримав відповідь: «Відстань від твого села дорівнює 1/3 всієї відстані між селами. А якщо пройдеш ще дві версти, будеш на ½ (посередині) між селами». Скільки верст залишилося йти подорожньому?»
+		</p>
+		<div id="result1">
+
+		<h4>Код програми</h4>
+		<div id="section1">
+			<pre>
+				<code>
+
+-- Завдання № 1
+result allD y = (fst allD * fst y) / (snd allD * snd y)
+
+all_distance (x:y:xs)
+    | (x:y:xs) == [] = 0
+    | fst allD == 1 = result (snd allD * fst two_more, 1) y
+    | otherwise = result (((fst two_more / fst two_more) * (snd allD)), 1) y
+    where
+    allD = ((fst x * snd y) - (fst y * snd x),  (snd x * snd y))
+    two_more = head xs
+
+main = print (all_distance [(1, 2), (1, 3), (2, 1)])
+
+				</code>
+			</pre>
+		</div>
+
+		<div title="result">
+			<h4>Результат</h4>
+			<img src="media/5_1.png">
+		</div>
+                   		</div>
+                 </div>
+        <div id="quest2">
+		<h4>Завдання 2</h4>
+		<p>Створити список з комплексних чисел, які задані в алгебраїчній формі a + ib. Надрукувати список. Обчислити добуток комплексних елементів списку.</p>
+        <div id="result2">
+		<h4>Код програми</h4>
+		<div id="section2">
+			<pre>
+				<code>
+
+-- Завдання № 2
+algor [] = []
+algor [x] = [x]
+algor (x:y:xs) =
+    if length (x:y:xs) == 2
+        then [(sqrti, i)]
+    else algor ((sqrti, i):xs)
+    where
+    i = (fst x * snd y) + (snd x * fst y)
+    sqrti = (fst x * fst y) + (snd x * snd y * (-1))
+
+output =
+    if (snd (x !! 0)) < 0
+        then putStrLn (show (fst (x !! 0)) ++ show (snd (x !! 0)) ++ "i" )
+    else putStrLn (show (fst (x !! 0)) ++ "+" ++ show (snd (x !! 0)) ++ "i" )
+    where x = (algor [(1, -2), (1, 3)])
+
+main = output
+
+				</code>
+			</pre>
+		</div>
+		<div class="result">
+			<h4>Результати</h4>
+			<img src="media/5_2.png">
+            <h4 id="result2_">Аналіз достовірності результатів</h4>
+            <img src="media/5_2_.png">
+		</div>
+        </div>
+        </div>
+		<h4>Висновки</h4>
+        <div id="result">
+        <p>У ході виконання даної лабораторної роботи було опанованно технологію абстракції даних мовами функціонального програмування, а також реалізовано програму обробки раціональних та комплексних чисел мовами функціонального програмування, представивши ці числа конструкціями типу «пара»</p>
+	    </div>
+        </div>
+    </div>
+
+</body>
+</html>

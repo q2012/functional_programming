@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Functional Programming</title>
+  <link rel="stylesheet" href="../css/lab6.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+$(document).ready(function(){
+  $("a").on('click', function(event) {
+
+    if (this.hash !== "") {
+      event.preventDefault();
+
+      var hash = this.hash;
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 800, function(){
+
+        window.location.hash = hash;
+      });
+    }
+  });
+});
+</script>
+</head>
+<body>
+  <header>
+    <div id="logo">
+      <span>Функціональне програмування</span>
+    </div>
+    <div id="about">
+      <a href="#" title="Lab_1" >Лабораторна 1</a>
+      <a href="#" title="Lab_2">Лабораторна 2</a>
+      <a href="#" title="Lab_3">Лабораторна 3</a>
+      <a href="#" title="Lab_4">Лабораторна 4</a>
+      <a href="#" title="Lab_5" >Лабораторна 5</a>
+      <a href="../index.html" title="Lab_6">Лабораторна 6</a>
+      <a href="#" title="Lab_7">Лабораторна 7</a>
+      <a href="#" title="Lab_8">Лабораторна 8</a>
+    </div>
+  </header>
+	<div id="top">
+		<h1>Лабораторна робота 6<br>
+			Обробка структур типу векторів і матриць, стеків та черг мовами функціонального програмування<br>
+			Варіант 5
+		</h1>
+    </div>
+  <div>
+
+  </div>
+	<div id="text">
+        `       <div id="test">
+			<h4>Зміст</h4>
+			<ol>
+				<li><a href="#meta">Мета</a></li>
+				<li><a href="#choice">Вибір середовища та мови функціонального програмування</a></li>
+				<li><a href="#quest1">Завдання 1</a>
+					<ul>
+						<li><a href="#section1">Код програми</a></li>
+					</ul>
+				</li>
+				<li><a href="#quest2">Завдання 2</a>
+					<ul>
+						<li><a href="#section2">Код програми</a></li>
+						<li><a href="#result2">Результати роботи</a></li>
+					</ul>
+				</li>
+				<li><a href="#result">Висновки</a></li>
+			</ol>
+		</div>
+		<p><b id="meta">Мета:</b> Опанувати теоретичні основи обробки структур типу векторів і матриць, стеків та черг мовами функціонального програмування та розробити програми їх реалізації<br>
+		<p style="margin-top: 1%"><b id="choice">Вибір середовища та мови функціонального програмування</b><br>
+		</p>
+		<p>В якості мови програмування була обрана Haskell, оскільки в ньому оптимально поєднанні імперативні і функціональні парадигми а також, легко будувати абстракції над даними і алгоритмами, що дозволяє думати про завдання, не відволікаючись на дрібниці. Середовищем було обрано Compile and Execute Haskell Online (Glorious Glasgow, v8.0.2)</p>
+        <div id="quest1">
+        <h4>Завдання 1</h4>
+		<p>Створити вектор чисел Знайти найбільший серед від’ємних та найменший серед додатних елементів вектору. Вивести вектор, значення знайдених елементів та їх індекси.
+		</p>
+		<div id="result1">
+
+		<h4>Код програми</h4>
+		<div id="section1">
+			<pre>
+				<code>
+
+-- Завдання № 1
+test list min_ max_ iterator =
+    if iterator == length list
+        then putStrLn ("hello world " ++show (min_)++show (max_)++show(drop (snd max_) (take ((snd max_) + snd(min_)) list)))
+    else if (fst min_) > (list !! iterator) && (list !! iterator) > 0
+        then test list (list !! iterator, iterator) max_ (iterator + 1)
+    else if (fst max_) < (list !! iterator) && (list !! iterator) < 0
+        then test list min_ (list !! iterator, iterator) (iterator + 1)
+    else test list min_ max_ (iterator + 1)
+
+
+main_list = [-3, -2, -3, 0, 1, 2, 3]
+
+minn list min =
+    if length list == 0
+        then min
+    else if list !! 0 < min
+        then minn (drop 1 list) (list !! 0)
+    else minn (drop 1 list) min
+
+maxx list max =
+    if length list == 0
+        then max
+    else if list !! 0 > max
+        then maxx (drop 1 list) (list !! 0)
+    else maxx (drop 1 list) max
+
+main = do
+    test main_list (max, 0) (min, 0) 0
+    where
+    min = minn main_list (main_list !! 0)
+    max = maxx main_list (main_list !! 0)
+
+
+				</code>
+			</pre>
+		</div>
+
+		<div title="result">
+			<h4>Результат</h4>
+			<img src="../media/6_1.png">
+		</div>
+                   		</div>
+                 </div>
+        <div id="quest2">
+		<h4>Завдання 2</h4>
+		<p>Створити дві черги. Об’єднати дві черги в одну, елементи якої вибрані по черзі з вхідних черг, наприклад, перший елемент першої черги, перший елемент другої, другий елемент першої черги, другий елемент другої і т.д..  </p>
+        <div id="result2">
+		<h4>Код програми</h4>
+		<div id="section2">
+			<pre>
+				<code>
+
+-- Завдання № 2
+push queue new = new ++ (take 1 queue)
+
+pop queue = drop 1 queue
+
+result fstQueue sndQueue newQueue =
+    if length fstQueue == 0
+        then new
+    else result fstpop sndpop new
+    where
+    fstpop = pop fstQueue
+    sndpop = pop sndQueue
+    new = push sndQueue (push fstQueue newQueue)
+main = do
+    print("first"++show([1, 3, 5, 7])++" second"++show([2, 4, 6, 8]))
+    print(result [1, 3, 5, 7] [2, 4, 6, 8] [])
+
+
+
+				</code>
+			</pre>
+		</div>
+		<div class="result">
+			<h4>Результати</h4>
+			<img src="../media/6_2.png">
+
+		</div>
+        </div>
+        </div>
+		<h4>Висновки</h4>
+        <div id="result">
+        <p>У ході виконання даної лабораторної роботи було опанованно технологію обробки структур типу векторів і матриць, стеків та черг мовами функціонального програмування</p>
+	    </div>
+        </div>
+    </div>
+
+</body>
+</html>

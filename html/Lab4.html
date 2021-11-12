@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Functional Programming</title>
+  <link rel="stylesheet" href="../css/lab4.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+$(document).ready(function(){
+  $("a").on('click', function(event) {
+
+    if (this.hash !== "") {
+      event.preventDefault();
+
+      var hash = this.hash;
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 800, function(){
+
+        window.location.hash = hash;
+      });
+    }
+  });
+});
+</script>
+</head>
+<body>
+  <header>
+    <div id="logo">
+      <span>Функціональне програмування</span>
+    </div>
+    <div id="about">
+      <a href="" title="Lab_1" >Лабораторна 1</a>
+      <a href="#" title="Lab_2">Лабораторна 2</a>
+      <a href="#" title="Lab_3">Лабораторна 3</a>
+      <a href="../index.html" title="Lab_4">Лабораторна 4</a>
+      <a href="#" title="Lab_5" >Лабораторна 5</a>
+      <a href="#" title="Lab_6">Лабораторна 6</a>
+      <a href="#" title="Lab_7">Лабораторна 7</a>
+      <a href="#" title="Lab_8">Лабораторна 8</a>
+    </div>
+  </header>
+	<div id="top">
+		<h1>Лабораторна робота 4<br>
+			Програмування списків мовами функціонального програмування<br>
+			Варіант 5
+		</h1>
+    </div>
+  <div>
+
+  </div>
+	<div id="text">
+        `       <div id="test">
+			<h4>Зміст</h4>
+			<ol>
+				<li><a href="#meta">Мета</a></li>
+				<li><a href="#choice">Вибір середовища та мови функціонального програмування</a></li>
+				<li><a href="#quest1">Завдання 1</a>
+					<ul>
+						<li><a href="#section1">Код програми</a></li>
+						<li><a href="#result1">Результати роботи</a></li>
+						<li><a href="#result1_">Аналіз достовірності результатів</a></li>
+					</ul>
+				</li>
+				<li><a href="#quest2">Завдання 2</a>
+					<ul>
+						<li><a href="#section2">Код програми</a></li>
+						<li><a href="#result2">Результати роботи</a></li>
+						<li><a href="#result2_">Аналіз достовірності результатів</a></li>
+					</ul>
+				</li>
+				<li><a href="#result">Висновки</a></li>
+			</ol>
+		</div>
+		<p><b id="meta">Мета:</b> Опанувати теоретичні основи використання списків функціональними мовами та розробити програми обробки списків<br>
+		<p style="margin-top: 1%"><b id="choice">Вибір середовища та мови функціонального програмування</b><br>
+		</p>
+		<p>В якості мови програмування була обрана Haskell, оскільки в ньому оптимально поєднанні імперативні і функціональні парадигми а також, легко будувати абстракції над даними і алгоритмами, що дозволяє думати про завдання, не відволікаючись на дрібниці. Середовищем було обрано Compile and Execute Haskell Online (Glorious Glasgow, v8.0.2)</p>
+        <div id="quest1">
+        <h4>Завдання 1</h4>
+		<p>Створити список чисел, що є степенями двійки, задавши їх кількість. Вивести створений список. Виконати такі операції:<br>
+a)	Видалити із списку усі елементи, які знаходяться парних позиціях;<br>
+b)	Інвертувати список, починаючи із заданої позиції;<br>
+c)	Знайти суму елементів на непарних позиціях списку.
+		</p>
+		<div id="result1">
+
+		<h4>Код програми</h4>
+		<div id="section1">
+			<pre>
+				<code>
+
+-- Завдання № 1
+test list x = reverse (drop x list)
+
+odds [] = []
+odds [x] = [x]
+odds (e1:e2:xs) = e1 : odds xs
+
+main = do
+    print([2 ^ x | x <- [0..9]]) --5.1
+    print(odds [2 ^ x | x <- [0..9]]) --5.1 (a)
+    print(test [2 ^ x | x <- [0..9]] 3) --5.2 (b)
+    print(sum (odds [2 ^ x | x <- [0..9]]))
+
+				</code>
+			</pre>
+		</div>
+
+		<div title="result">
+			<h4>Результат</h4>
+			<img src="../media/4_1.png">
+			<h4 id="result1_">Аналіз достовірності результатів</h4>
+            <img src="../media/4_1_.png">
+		</div>
+                   		</div>
+                 </div>
+        <div id="quest2">
+		<h4>Завдання 2</h4>
+		<p>Написати код, що моделює процес обслуговування покупців в касі магазину. Сформувати список покупців (можна задати їх цифрові ідентифікатори). Відомий час обслуговування касиром кожного покупця. Визначити час перебування кожного покупця у черзі, а також номер покупця, обслуговування якого потребує найменше часу. Вивести на екран сценарій процесу обслуговування (перебування у черзі) покупців.</p>
+        <div id="result2">
+		<h4>Код програми</h4>
+		<div id="section2">
+			<pre>
+				<code>
+
+-- Завдання № 2
+cycle_ list result iterator min_ =
+    if length(list) == iterator
+        then putStrLn ("ID покупця обслуговування якого потребує найменше часу " ++ show min_)
+    else do
+        if min_ > ((list !! iterator) !! 1)
+            then do
+            putStrLn ("ID покупця " ++ show ((list !! iterator) !! 0) ++ ", час перебування " ++ show (((list !! iterator) !! 1) + result))
+            cycle_ list (result + ((list !! iterator) !! 1)) (iterator + 1) ((list !! iterator) !! 0)
+        else do
+        putStrLn ("ID покупця " ++ show ((list !! iterator) !! 0) ++ ", час перебування " ++ show (((list !! iterator) !! 1) + result))
+        cycle_ list (result + ((list !! iterator) !! 1)) (iterator + 1) min_
+
+
+list_ = [[123, 6], [122, 12], [133, 2], [111, 12], [132, 1]]
+
+main = cycle_ list_ 0 0 ((list_ !! 0) !! 1)
+
+				</code>
+			</pre>
+		</div>
+		<div class="result">
+			<h4>Результати</h4>
+			<img src="../media/4_2.png">
+            <h4 id="result2_">Аналіз достовірності результатів</h4>
+            <img src="../media/4_2_.png">
+		</div>
+        </div>
+        </div>
+		<h4>Висновки</h4>
+        <div id="result">
+        <p>У ході виконання даної лабораторної роботи було опановано технологію абстракції даних мовами функціонального програмування, а також реалізовано програму обробки раціональних та комплексних чисел мовами функціонального програмування, представивши ці числа конструкціями типу «пара»</p>
+	    </div>
+        </div>
+    </div>
+
+</body>
+</html>
